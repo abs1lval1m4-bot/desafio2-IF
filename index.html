@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Linha de Envase - SENAI Tech</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e8f0f2;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .painel {
+            width: 450px;
+
+            background-color: white;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+
+
+        .cabecalho {
+            background-color: #167c80;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+        .cabecalho h1 {
+            font-size: 25px;
+
+            margin-bottom: 8px;
+        }
+
+        .cabecalho p {
+            font-size: 14px;
+        }
+
+
+
+        .status {
+            text-align: center;
+
+            padding: 15px;
+
+            background-color: #d9f3e3;
+
+            color: #167c40;
+
+            font-weight: bold;
+
+            font-size: 17px;
+        }
+
+
+
+        .contador-area {
+            text-align: center;
+
+            padding: 35px 20px;
+        }
+
+        .contador {
+            font-size: 85px;
+
+            font-weight: bold;
+
+            color: #164b5a;
+        }
+
+        .limite {
+            color: #777;
+
+            margin-top: 5px;
+        }
+
+
+
+        .barra-fundo {
+            width: 85%;
+
+            height: 15px;
+
+            background-color: #ddd;
+
+            border-radius: 10px;
+
+            margin: 20px auto;
+
+            overflow: hidden;
+        }
+
+        .barra {
+            height: 100%;
+
+            width: 0%;
+
+            background-color: #24a66a;
+
+            transition: 0.3s;
+        }
+
+
+
+        .botoes {
+            display: flex;
+
+            gap: 12px;
+
+            padding: 20px;
+
+            border-top: 1px solid #ddd;
+        }
+
+        button {
+            flex: 1;
+
+            border: none;
+
+            border-radius: 6px;
+
+            padding: 16px 8px;
+
+            background-color: #278fbd;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1d769c;
+        }
+
+        button:disabled {
+            background-color: #999;
+
+            cursor: not-allowed;
+        }
+
+
+
+        .reset {
+            width: 100%;
+
+            border-radius: 0;
+
+            background-color: #526b78;
+        }
+
+        .reset:hover {
+            background-color: #3e535e;
+        }
+
+
+
+        .mensagem {
+            text-align: center;
+
+            padding: 0 20px 20px;
+
+            color: #555;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+
+        @media (max-width: 500px) {
+
+            .painel {
+                width: 92%;
+            }
+
+            .contador {
+                font-size: 70px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="painel">
+
+
+
+        <div class="cabecalho">
+
+            <h1>
+                🧪 LINHA DE ENVASE
+            </h1>
+
+            <p>
+                SENAI Tech - Indústria Farmacêutica
+            </p>
+
+        </div>
+
+
+
+        <div id="status" class="status">
+
+            PRODUZINDO
+
+        </div>
+
+
+
+        <div class="contador-area">
+
+            <div id="contador" class="contador">
+
+                0
+
+            </div>
+
+            <div class="limite">
+
+                Limite da bandeja: 100 frascos
+
+            </div>
+
+
+
+            <div class="barra-fundo">
+
+                <div
+                    id="barra"
+                    class="barra"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+
+        <div
+            id="mensagem"
+            class="mensagem"
+        >
+
+            Linha funcionando normalmente.
+
+        </div>
+
+
+
+        <div class="botoes">
+
+            <button
+                id="botao1"
+                onclick="adicionarFrasco(1)"
+            >
+
+                +1 Frasco
+                <br>
+                Sensor Óptico
+
+            </button>
+
+
+            <button
+                id="botao10"
+                onclick="adicionarFrasco(10)"
+            >
+
+                +10 Frascos
+                <br>
+                Entrada de Caixa
+
+            </button>
+
+        </div>
+
+
+
+        <button
+            class="reset"
+            onclick="trocarBandeja()"
+        >
+
+            🔄 Trocar Bandeja (Reset)
+
+        </button>
+
+
+    </div>
+
+
+    <script>
+
+
+        let quantidade = 0;
+
+
+        const limite = 100;
+
+
+        function adicionarFrasco(valor) {
+
+
+            if (quantidade + valor <= limite) {
+
+                quantidade = quantidade + valor;
+
+            }
+
+
+            atualizarTela();
+
+        }
+
+
+        function atualizarTela() {
+
+
+            document.getElementById(
+                "contador"
+            ).textContent = quantidade;
+
+
+            const status =
+                document.getElementById("status");
+
+            const mensagem =
+                document.getElementById("mensagem");
+
+            const botao1 =
+                document.getElementById("botao1");
+
+            const botao10 =
+                document.getElementById("botao10");
+
+            const barra =
+                document.getElementById("barra");
+
+
+            const porcentagem =
+                (quantidade / limite) * 100;
+
+
+            barra.style.width =
+                porcentagem + "%";
+
+
+            if (quantidade >= limite) {
+
+
+                status.textContent =
+                    "BANDEJA CHEIA - ESTEIRA BLOQUEADA";
+
+
+                status.style.backgroundColor =
+                    "#f8d7da";
+
+
+                status.style.color =
+                    "#b42318";
+
+
+                mensagem.textContent =
+                    "🔔 Bipe! Limite atingido. Troque a bandeja.";
+
+
+                botao1.disabled = true;
+
+                botao10.disabled = true;
+
+
+                barra.style.backgroundColor =
+                    "#d62828";
+
+            }
+
+
+            else if (quantidade >= 80) {
+
+
+                status.textContent =
+                    "ATENÇÃO - BANDEJA QUASE CHEIA";
+
+
+                status.style.backgroundColor =
+                    "#fff0c2";
+
+
+                status.style.color =
+                    "#9a6700";
+
+
+                mensagem.textContent =
+                    "Atenção: a bandeja está quase cheia.";
+
+
+                botao1.disabled = false;
+
+                botao10.disabled = false;
+
+
+                barra.style.backgroundColor =
+                    "#e6a700";
+
+            }
+
+
+            else {
+
+
+                status.textContent =
+                    "PRODUZINDO";
+
+
+                status.style.backgroundColor =
+                    "#d9f3e3";
+
+
+                status.style.color =
+                    "#167c40";
+
+
+                mensagem.textContent =
+                    "Linha funcionando normalmente.";
+
+
+                botao1.disabled = false;
+
+                botao10.disabled = false;
+
+
+                barra.style.backgroundColor =
+                    "#24a66a";
+
+            }
+
+        }
+
+
+        function trocarBandeja() {
+
+
+            quantidade = 0;
+
+
+            atualizarTela();
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
